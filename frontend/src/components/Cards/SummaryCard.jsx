@@ -1,6 +1,6 @@
-import { desc, div } from "framer-motion/client";
 import React from "react";
 import { LuTrash2 } from "react-icons/lu";
+import { motion } from "framer-motion";
 import { getInitials } from "../../utils/helper";
 
 function SummaryCard({
@@ -15,52 +15,82 @@ function SummaryCard({
   onDelete,
 }) {
   return (
-    <div className="bg-white border border-gray-300/40 rounded-xl p-2 overflow-hidden cursor-pointer hover:shadow-xl shadow-gray-100 relative group" onClick={onSelect}>
-      <div
-        className="rounded-lg p-4 cursor-pointer relative"
-        style={{
-          background: colors.bgcolor,
-        }}
-      >
-        <div className="flex items-start">
-          <div className="flex-shrink-0 w-12 h-12 bg-white rounded-md flex items-center justify-center mr-4">
-            <span className="text-lg font-semibold text-black">{getInitials(role)}</span>
-          </div>
-          {/* content cont */}
-          <div className="flex-grow">
-            <div className="flex justify-between items-start">
-              {/* title and skills */}
-              <div>
-                <h2 className="text-[17px] font-medium">{role}</h2>
-                <p className="text-xs text-medium text-gray-900">{topicToFocus}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <button
-          className="hidden group-hover:flex items-center gap-2 text-xs text-rose-500 font-medium bg-rose-50 px-3 py-1 rounded text-nowrap border border-rose-100 hover:border-rose-200 cursor-pointer top-0 right-0 absolute"
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete();
-          }}
+    <motion.div
+      whileHover={{ y: -6 }}
+      whileTap={{ scale: 0.97 }}
+      onClick={onSelect}
+      className="group relative h-full rounded-2xl p-[1px] bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 transition-all duration-300"
+    >
+      {/* CARD */}
+      <div className="flex flex-col h-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300">
+
+        {/* TOP */}
+        <div
+          className="relative p-4 flex items-start gap-4"
+          style={{ background: colors.bgcolor }}
         >
-          <LuTrash2/>
-        </button>
-      </div>
 
-      <div className="px-3 pb-3">
-        <div className="flex items-center gap-3 mt-4">
-          <div className="text-[10px] font-medium text-black px-3 py-1 border-[0.5px] border-gray-900 rounded-full">
-            Experience: {experience} {experience == 1 ? "Year" : "Years"}
+          {/* glow effect */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-r from-blue-200/30 via-purple-200/30 to-pink-200/30 blur-xl"></div>
+
+          {/* avatar */}
+          <div className="relative z-10 w-12 h-12 flex-shrink-0 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 text-white flex items-center justify-center font-semibold shadow-md">
+            {getInitials(role)}
           </div>
-          <div className="text-[10px] font-medium text-black px-3 py-1 border-[0.5px] border-gray-900 rounded-full">{questions} Q&A</div>
-          <div className="text-[10px] font-medium text-black px-3 py-1 border-[0.5px] border-gray-900 rounded-full">Last Updated: {lastUpdated}</div>
+
+          {/* title */}
+          <div className="relative z-10 flex-grow">
+            <h2 className="text-[16px] font-semibold capitalize text-gray-900">
+              {role}
+            </h2>
+
+            <p className="text-xs text-gray-700 mt-1">
+              {topicToFocus}
+            </p>
+          </div>
+
+          {/* delete */}
+          <button
+            className="hidden group-hover:flex relative z-10 text-rose-500 bg-white shadow-md border border-gray-200 rounded-lg p-1 hover:bg-rose-50"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+          >
+            <LuTrash2 size={16} />
+          </button>
+
         </div>
 
-        {/* Desc */}
-        <p className="text-12px text-gray-500 font-medium line-clamp-2 ">{description}</p>
+        {/* BOTTOM */}
+        <div className="flex flex-col justify-between flex-grow p-4">
+
+          {/* chips */}
+          <div className="flex flex-wrap gap-2 mb-3">
+
+            <div className="text-[11px] px-3 py-1 bg-gray-100 border border-gray-200 rounded-full">
+              Experience: {experience} {experience === 1 ? "Year" : "Years"}
+            </div>
+
+            <div className="text-[11px] px-3 py-1 bg-gray-100 border border-gray-200 rounded-full">
+              {questions} Q&A
+            </div>
+
+            <div className="text-[11px] px-3 py-1 bg-gray-100 border border-gray-200 rounded-full">
+              Updated: {lastUpdated}
+            </div>
+
+          </div>
+
+          {/* description (fixed height for equal cards) */}
+          <p className="text-sm text-gray-500 line-clamp-2 min-h-[42px]">
+            {description}
+          </p>
+
+        </div>
+
       </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -1,3 +1,5 @@
+//frontend\src\Index.js
+
 import  Login from './Pages/Auth/Login'
 import  SignUp from './Pages/Auth/SignUp'
 import Dashboard from './Pages/Home/Dashboard'

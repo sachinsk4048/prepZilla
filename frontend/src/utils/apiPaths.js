@@ -1,3 +1,4 @@
+//InterviewPrepAi\frontend\src\utils\apiPaths.js
 // frontend/src/api/urls.js => API paths
 // export const BASE_URL = "http://localhost:8000";
 

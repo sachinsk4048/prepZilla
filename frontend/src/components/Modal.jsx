@@ -1,23 +1,56 @@
-import { div } from 'framer-motion/client'
-import React from 'react'
+// Modal.jsx
 
-function Modal({children, isOpen, onClose,title, hideHeader}) {
+import React from "react";
+
+function Modal({
+  children,
+  isOpen,
+  onClose,
+  title,
+  hideHeader,
+  className = "",
+  centered = true
+}) {
   if (!isOpen) return null;
+
   return (
-    <div className='fixed top-0 left-0 z-50 h-screen w-screen bg-black/40 flex justify-center items-center'>
-       <div className='bg-white relative p-5 rounded-lg'>
-         {!hideHeader && (
-            <div>
-                <h2 className=''>{title}</h2>
-            </div>
+    <div
+      className={`fixed inset-0 z-[999] flex justify-center px-4 bg-black/50 backdrop-blur-sm overflow-y-auto
+      ${centered ? "items-center" : "items-start pt-28 pb-10"}`}
+    >
+
+      <div
+        className={`
+        w-full
+        max-w-lg
+        bg-white/20
+        backdrop-blur-xl
+        border border-white/30
+        rounded-2xl
+        shadow-2xl
+        p-6
+        relative
+        ${className}
+        `}
+      >
+        {!hideHeader && (
+          <div className="flex justify-between items-center mb-5">
+            <h2 className="text-lg font-semibold text-white">{title}</h2>
+
+            <button
+              onClick={onClose}
+              className="text-white text-xl hover:scale-110 transition"
+            >
+              ✕
+            </button>
+          </div>
         )}
-        <button className='text-gray-400 hover:bg-orange-50 hover:text-black text-3xl absolute right-2 top-2 flex justify-center items-center rounded-lg' onClick={onClose}><ion-icon name="close-outline"></ion-icon></button>
-        <div className='overflow-y-auto custom-scrollbar'>
-            {children}
-        </div>
-       </div>
+
+        {children}
+
+      </div>
     </div>
-  )
+  );
 }
 
-export default Modal
+export default Modal;

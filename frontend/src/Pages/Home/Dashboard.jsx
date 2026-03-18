@@ -1,111 +1,156 @@
-import React, { useEffect, useState } from 'react'
-import { LuPlus } from 'react-icons/lu';
-// import {CARD_BG} from '../../utils/data'
-import DashboardLayout from '../../components/layout/DashboardLayout';
-import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../../utils/axiosInstance';
-import { API_PATHS } from '../../utils/apiPaths';
-import { CARD_BG } from '../../utils/data';
-import moment from 'moment';
-import SummaryCard from '../../components/Cards/SummaryCard';
-import Modal from '../../components/Modal'
-import CreateSessionForm from './CreateSessionForm';
-import DeleteAlertContent from '../../components/DeleteAlertContent';
-import toast from 'react-hot-toast';
+//frontend/src/Pages/Home/Dashboard.jsx
+
+import React, { useEffect, useState } from "react";
+import { LuPlus } from "react-icons/lu";
+import DashboardLayout from "../../components/layout/DashboardLayout";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import { CARD_BG } from "../../utils/data";
+import moment from "moment";
+import SummaryCard from "../../components/Cards/SummaryCard";
+import SummaryCardSkeleton from "../../components/Loader/SummaryCardSkeleton";
+import Modal from "../../components/Modal";
+import CreateSessionForm from "./CreateSessionForm";
+import DeleteAlertContent from "../../components/DeleteAlertContent";
+import toast from "react-hot-toast";
 
 function Dashboard() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [openCreateModal, setOpenCreateModal] = useState(false)
-  const [session,setSession] = useState([])
-  const [openDeleteAlert,setOpenDeleteAlert] = useState({
+  const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [session, setSession] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [openDeleteAlert, setOpenDeleteAlert] = useState({
     open: false,
-    data: null
-  })
-  const fetchAllSessions = async() => {
-    try{
+    data: null,
+  });
+
+  const fetchAllSessions = async () => {
+    try {
       const response = await axiosInstance.get(API_PATHS.SESSION.GET_ALL);
-      setSession(response.data.sessions)
-    }catch(err){
-      console.error("Error fetching session data: ",err);
-      
+
+      setSession(response.data.sessions || []);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching session data:", err);
+      setLoading(false);
     }
-  }
-  const deleteSession = async(sessionData) => {
-    try{
-      await axiosInstance.delete(API_PATHS.SESSION.DELETE(sessionData?._id))
-  
-      toast.success("Session Deleted Successfully")
+  };
+
+  const deleteSession = async (sessionData) => {
+    try {
+      await axiosInstance.delete(
+        API_PATHS.SESSION.DELETE(sessionData?._id)
+      );
+
+      toast.success("Session Deleted Successfully");
+
       setOpenDeleteAlert({
         open: false,
-        data:null
-      })
-      fetchAllSessions()
-    }catch(e){
-      console.error("Error deleting session data:", e)
+        data: null,
+      });
+
+      fetchAllSessions();
+    } catch (e) {
+      console.error("Error deleting session data:", e);
     }
-  }
+  };
 
   useEffect(() => {
-     fetchAllSessions();
-  },[])
-  
+    fetchAllSessions();
+  }, []);
+
   return (
     <DashboardLayout>
-      <div className='container mx-auto pt-4 pb-4'>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-7 pt-1 pb-6 px-4 md:px-22'>
+      <div className="container mx-auto pt-4 pb-4">
 
-          {session?.map((data,index) => (
-            <SummaryCard
-            key={data?._id}
-            colors={CARD_BG[index % CARD_BG.length]}
-            role={data?.role || ""}
-            topicToFocus = {data?.topicsToFocus || ""} 
-            experience = {data?.experience || "-"} 
-            questions = {data?.questions?.length || "-"} 
-            description = {data?.description || ""} 
-            lastUpdate={
-              data?.updatedAt ? moment(data.updateAt).format("DD MMM YYYY") : ""
-            }
-            onSelect={() => navigate(`/interview-prep/${data?._id}`)}
-            onDelete={() => setOpenDeleteAlert({open:true,data})}
-            />
-          ))}
+        {/* CARD GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2 pb-6 px-4 md:px-16">
+
+          {loading ? (
+            <>
+              <SummaryCardSkeleton />
+              <SummaryCardSkeleton />
+              <SummaryCardSkeleton />
+              <SummaryCardSkeleton />
+              <SummaryCardSkeleton />
+              <SummaryCardSkeleton />
+
+            </>
+          ) : (
+            session?.map((data, index) => (
+              <SummaryCard
+                key={data?._id}
+                colors={CARD_BG[index % CARD_BG.length]}
+                role={data?.role || ""}
+                topicToFocus={data?.topicsToFocus || ""}
+                experience={data?.experience || "-"}
+                questions={data?.questions?.length || "-"}
+                description={data?.description || ""}
+                lastUpdated={
+                  data?.updatedAt
+                    ? moment(data.updatedAt).format("DD MMM YYYY")
+                    : ""
+                }
+                onSelect={() =>
+                  navigate(`/interview-prep/${data?._id}`)
+                }
+                onDelete={() =>
+                  setOpenDeleteAlert({ open: true, data })
+                }
+              />
+            ))
+          )}
         </div>
-        <button className='h-12 md:h-12 flex items-center justify-center gap-3 bg-linear-to-r from-[#FF9324] to-[#e99a4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer hover:shadow-2xl hover:shadow-orange-300 fixed bottom-10 md:bottom-20 right-10 md:right-20' onClick={() => setOpenCreateModal(true)}>
-          <LuPlus className='text-2xl text-white'/>
-          Add New
-        </button>
+
+        {/* ADD BUTTON */}
+       <div className="fixed bottom-10 md:bottom-20 right-10 md:right-20">
+
+  {/* rotating glow */}
+  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 blur-md spin-slow"></div>
+
+  <button
+    onClick={() => setOpenCreateModal(true)}
+    className="relative flex items-center gap-3 px-6 py-3 rounded-full text-white font-semibold text-sm bg-gradient-to-r from-blue-600 to-purple-600 shadow-xl hover:scale-105 transition-all duration-300"
+  >
+    <span className="flex items-center justify-center w-9 h-9 rounded-full bg-white/20">
+      <LuPlus className="text-xl" />
+    </span>
+
+    <span>Add New</span>
+  </button>
+
+</div>
+
       </div>
 
+      {/* CREATE SESSION MODAL */}
       <Modal
-      isOpen={openCreateModal}
-      onClose={() => {
-        setOpenCreateModal(false)
-      }}
-      hideHeader
+        isOpen={openCreateModal}
+        onClose={() => setOpenCreateModal(false)}
+        title="Create Interview Session"
+        centered={false}
+        className="max-w-2xl"
       >
-        <div>
-          <CreateSessionForm/>
-
-        </div>
+        <CreateSessionForm />
       </Modal>
+
+      {/* DELETE MODAL */}
       <Modal
-      isOpen={openDeleteAlert?.open}
-      isClose={() => {
-        setOpenDeleteAlert({open:false, data:null})
-      }}
-      title="Delete Alert"
+        isOpen={openDeleteAlert?.open}
+        onClose={() => setOpenDeleteAlert({ open: false, data: null })}
+        title="Delete Alert"
       >
-        <div className='w-[30vw]'>
-          <DeleteAlertContent
-          content="Are you sure you want to delete this session details?"
+        <DeleteAlertContent
+          content="Are you sure you want to delete this session?"
           onDelete={() => deleteSession(openDeleteAlert.data)}
-          />
-        </div>
+          onClose={() => setOpenDeleteAlert({ open: false, data: null })}
+        />
       </Modal>
     </DashboardLayout>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

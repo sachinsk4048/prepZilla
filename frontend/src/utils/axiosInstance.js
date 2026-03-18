@@ -1,3 +1,5 @@
+//InterviewPrepAi\frontend\src\utils\axiosInstance.js
+
 import axios from "axios";
 import { BASE_URL } from "./apiPaths";
 
