@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import UserProvider from "./Context/userContext";
 import Navbar from "./components/layout/Navbar";
-import TipsAndTricks from "./pages/Tips/TipsAndTricks";
+import TipsAndTricks from "./Pages/Tips/TipsAndTricks";
 
 function App() {
   return (
