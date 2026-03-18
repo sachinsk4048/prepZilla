@@ -1,8 +1,8 @@
 //frontend\src\Pages\LandingPage.jsx
 
 import Navbar from "../components/layout/Navbar";
-import Hero from "../components/LandingPage/Hero";
-import Footer from "../components/LandingPage/Footer";
+import Hero from "../components/landingPage/Hero";
+import Footer from "../components/landingPage/Footer";
 import TrustedCompanies from "../components/landingPage/TrustedCompanies";
 import PrepareSection from "../components/landingPage/PrepareSection";
 import StatsCounter from "../components/landingPage/StatsCounter";
