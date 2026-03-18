@@ -2,12 +2,8 @@
 // frontend/src/api/urls.js => API paths
 // export const BASE_URL = "http://localhost:8000";
 
-const hostname = window.location.hostname;
-
 export const BASE_URL =
-  hostname === "localhost"
-    ? "http://localhost:8000"
-    : `http://${hostname}:8000`;
+  import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export const API_PATHS = {
   AUTH: {
