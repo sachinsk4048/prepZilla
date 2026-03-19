@@ -4,7 +4,7 @@
 
 export const BASE_URL =
   // import.meta.env.VITE_API_URL || "http://localhost:8000";
-  import.meta.env.VITE_API_URL || "";
+  import.meta.env.VITE_API_URL || "https://prepzilla-ai.onrender.com";
 
 export const API_PATHS = {
   AUTH: {
