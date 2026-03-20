@@ -1,3 +1,4 @@
+// InterviewPrepAi\frontend\src\components\Loader\SpinnerLoader.jsx
 import React from "react";
 
 function SpinnerLoader() {

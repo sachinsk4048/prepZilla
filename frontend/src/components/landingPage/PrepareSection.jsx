@@ -47,7 +47,7 @@ function PrepareSection() {
 
   return (
 
-<section className="py-28 pt-0">
+<section className="py-28">
 
 <div className="max-w-7xl mx-auto px-6 md:px-20 grid md:grid-cols-2 gap-16 items-center">
 
