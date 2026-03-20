@@ -19,7 +19,7 @@ export default function CTASection() {
   };
 
   return (
-    <section className="relative py-32  text-center px-6 pt-10">
+    <section className="relative py-32  text-center px-6  pt-20 pb-0">
 
       <div className="max-w-4xl mx-auto relative z-10">
 

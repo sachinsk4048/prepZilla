@@ -192,6 +192,16 @@ function Navbar() {
       {/* NAV OPTIONS */}
       <div className="flex flex-col gap-2 px-4 py-6">
 
+         <button
+          onClick={() => {
+            navigate("/");
+            setMenuOpen(false);
+          }}
+          className="text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+        >
+          Home
+        </button>
+
         <button
           onClick={() => {
             navigate("/dashboard");
@@ -212,15 +222,7 @@ function Navbar() {
           Tips & Tricks
         </button>
 
-        <button
-          onClick={() => {
-            navigate("/about");
-            setMenuOpen(false);
-          }}
-          className="text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
-        >
-          About
-        </button>
+       
 
       </div>
 

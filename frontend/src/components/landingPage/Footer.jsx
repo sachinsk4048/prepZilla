@@ -40,10 +40,10 @@ function Footer() {
 
               <li>
                 <Link
-                  to="/dashboard"
+                  to="/tips"
                   className="hover:text-blue-600 transition-all hover:translate-x-1 inline-block"
                 >
-                  Dashboard
+                  Tips & Tricks
                 </Link>
               </li>
 
